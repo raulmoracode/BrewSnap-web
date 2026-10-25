@@ -8,8 +8,8 @@
  */
 
 export const site = {
-  name: "brewsnap-web",
-  title: "brewsnap-web",
+  name: "BrewSnap",
+  title: "BrewSnap",
   description: "",
   url: "",
   favicon: "https://cdn.raulmoracode.com/icons/favicon.ico",
