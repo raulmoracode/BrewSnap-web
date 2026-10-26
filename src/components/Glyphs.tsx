@@ -24,7 +24,6 @@ export type Part = {
 
 // Each array item is a line; each line is made of parts.
 const DEFAULT_LINES: Part[][] = [
-  [{ text: "BrewSnap", static: true }],
   [{ text: "Sync your Homebrew", color: "#8A8D94" }],
   [{ text: "on a private", color: "#8A8D94" }],
   [{ text: "GitHub " }, { text: " repo", color: "#8A8D94" }],
@@ -61,39 +60,41 @@ export default function GlitchTitle({
     (_context, contextSafe) => {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-      const animateLine = contextSafe!((entries: CharEntry[]) => {
-        entries.forEach(({ el, distance, skip }) => {
-          // Characters inside a link or a static part are not animated.
-          if (skip) return;
+      const animateLine = contextSafe!(
+        (entries: CharEntry[], stagger: number) => {
+          entries.forEach(({ el, distance, skip }) => {
+            // Characters inside a link or a static part are not animated.
+            if (skip) return;
 
-          // Yoyo returns to the inherited color; resetChar clears the inline styles.
-          gsap.to(el, {
-            color: gsap.utils.random(colors),
-            ease: "power3.out",
-            duration: 0.3,
-            delay: distance * 0.03,
-            repeat: 1,
-            yoyo: true,
-            overwrite: "auto",
+            // Yoyo returns to the inherited color; resetChar clears the inline styles.
+            gsap.to(el, {
+              color: gsap.utils.random(colors),
+              ease: "power3.out",
+              duration: 0.3,
+              delay: distance * stagger,
+              repeat: 1,
+              yoyo: true,
+              overwrite: "auto",
 
-            onStart: () => {
-              if (Math.random() < 0.5) {
-                el.textContent = gsap.utils.random(GLYPHS);
-              }
-              // Box only for normal-size characters; small punctuation
-              // (":", ",", ".") and spaces get none. Outlines follow border-radius.
-              const original = el.dataset.orig ?? "";
-              if (Math.random() < 1 / 3 && /[a-z0-9]/i.test(original)) {
-                el.style.outline = `1px solid ${gsap.utils.random(colors)}`;
-                el.style.borderRadius = "0.12em";
-              }
-            },
+              onStart: () => {
+                if (Math.random() < 0.5) {
+                  el.textContent = gsap.utils.random(GLYPHS);
+                }
+                // Box only for normal-size characters; small punctuation
+                // (":", ",", ".") and spaces get none. Outlines follow border-radius.
+                const original = el.dataset.orig ?? "";
+                if (Math.random() < 1 / 3 && /[a-z0-9]/i.test(original)) {
+                  el.style.outline = `1px solid ${gsap.utils.random(colors)}`;
+                  el.style.borderRadius = "0.12em";
+                }
+              },
 
-            onComplete: () => resetChar(el),
-            onInterrupt: () => resetChar(el),
+              onComplete: () => resetChar(el),
+              onInterrupt: () => resetChar(el),
+            });
           });
-        });
-      });
+        },
+      );
 
       const splits: SplitText[] = [];
 
@@ -124,8 +125,14 @@ export default function GlitchTitle({
                     el.closest("[data-static]") !== null,
                 }));
 
+                // Long lines (the install command) keep the same maximum delay as
+                // a short hero line, so the whole ripple finishes in one beat.
+                const stagger = Math.min(0.03, 0.27 / Math.max(middleIndex, 1));
+
                 // Previous lines are discarded on each re-split, so their listeners go with them.
-                line.addEventListener("mouseenter", () => animateLine(entries));
+                line.addEventListener("mouseenter", () =>
+                  animateLine(entries, stagger),
+                );
               });
             },
           });

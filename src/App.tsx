@@ -1,5 +1,6 @@
 import { DownloadButton } from "./components/download-button";
 import Glyphs from "./components/Glyphs";
+import { InstallCommand } from "./components/install-command";
 
 export default function App() {
   return (
@@ -9,6 +10,10 @@ export default function App() {
           href="https://github.com/raulmoracode/BrewSnap-web/releases/latest"
           className="mt-10"
           platform="macos"
+        />
+        <InstallCommand
+          command="brew install raulmoracode/tap/brewsnap"
+          className="mt-5"
         />
       </Glyphs>
       <footer className="fixed inset-x-0 bottom-0 z-10 px-6 pb-5 text-center text-[0.8125rem] leading-none text-white/50">
