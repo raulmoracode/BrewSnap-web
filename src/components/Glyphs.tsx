@@ -24,10 +24,10 @@ export type Part = {
 
 // Each array item is a line; each line is made of parts.
 const DEFAULT_LINES: Part[][] = [
-  [{ text: "Sync your Homebrew", color: "#8A8D94" }],
-  [{ text: "on a private", color: "#8A8D94" }],
-  [{ text: "GitHub " }, { text: " repo", color: "#8A8D94" }],
-  [{ text: "as a simple JSON", color: "#8A8D94" }],
+  [{ text: "Your Homebrew setup", color: "#8A8D94" }],
+  [{ text: "backed up to a", color: "#8A8D94" }],
+  [{ text: "private ", color: "#8A8D94" }, { text: "GitHub" }],
+  [{ text: "repo in one click", color: "#8A8D94" }],
 ];
 
 type CharEntry = { el: HTMLElement; distance: number; skip: boolean };
@@ -155,7 +155,7 @@ export default function GlitchTitle({
       className="flex h-dvh w-full cursor-crosshair flex-col items-center justify-center bg-black text-white"
     >
       {/* SplitText creates <div>s for lines and characters, so they need position: relative. */}
-      <h1 className="m-0 w-4/5 p-0 text-center font-['Inter'] text-[7.5vw] font-medium leading-[0.95] tracking-[-0.1rem] [&_div]:relative">
+      <h1 className="m-0 w-4/5 p-0 text-center font-['Absans'] text-[7.5vw] font-normal leading-[0.95] tracking-[-0.1rem] [&_div]:relative">
         {lines.map((parts, lineIndex) => (
           <span key={lineIndex} data-line className="block whitespace-nowrap">
             {parts.map((part, partIndex) =>
