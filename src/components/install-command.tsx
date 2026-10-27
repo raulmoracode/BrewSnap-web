@@ -11,10 +11,6 @@ type InstallCommandProps = {
   className?: string;
 };
 
-/**
- * The `data-line` attribute is the contract with `Glyphs`: any line marked
- * with it inside the hero gets split and animated on hover.
- */
 export function InstallCommand({ command, className }: InstallCommandProps) {
   const [status, setStatus] = useState<CopyStatus>("idle");
   const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -40,14 +36,8 @@ export function InstallCommand({ command, className }: InstallCommandProps) {
         className,
       )}
     >
-      <code
-        data-line
-        className="min-w-0 flex-1 font-mono text-[0.6875rem] whitespace-nowrap text-white/85 sm:text-[0.8125rem] [&_div]:relative"
-      >
-        <span data-static className="select-none text-white/25">
-          $
-        </span>{" "}
-        {command}
+      <code className="min-w-0 flex-1 font-mono text-[0.6875rem] whitespace-nowrap text-white/85 sm:text-[0.8125rem]">
+        <span className="select-none text-green-400">$</span> {command}
       </code>
 
       <button
