@@ -34,26 +34,23 @@ export function DemoModal({
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm" />
         <Dialog.Content className="fixed top-1/2 left-1/2 z-50 w-[min(92vw,56rem)] -translate-x-1/2 -translate-y-1/2 outline-none">
-          <div className="flex items-center justify-between gap-4 pb-3">
-            <Dialog.Title className="text-xs font-medium tracking-[0.18em] text-white/60 uppercase">
-              BrewSnap demo
-            </Dialog.Title>
-            <Dialog.Close asChild>
-              <button
-                type="button"
-                className="rounded-full border border-white/15 px-3 py-1.5 text-xs text-white/70 transition-colors hover:border-white/40 hover:text-white focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none"
-              >
-                Close
-              </button>
-            </Dialog.Close>
-          </div>
+          <Dialog.Title className="sr-only">BrewSnap demo</Dialog.Title>
 
           <Dialog.Description className="sr-only">
             Video walkthrough of BrewSnap backing up your Homebrew setup to a
             private GitHub repository.
           </Dialog.Description>
 
-          <div className="overflow-hidden rounded-2xl border border-white/10 bg-black shadow-2xl">
+          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-black shadow-2xl">
+            <Dialog.Close asChild>
+              <button
+                type="button"
+                className="absolute top-3 right-3 z-10 rounded-full border border-white/15 bg-black/70 px-3 py-1.5 text-xs text-white/70 backdrop-blur-sm transition-colors hover:border-white/40 hover:text-white focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none"
+              >
+                Close
+              </button>
+            </Dialog.Close>
+
             {showFallback ? (
               <div className="flex aspect-video w-full items-center justify-center px-6 text-center">
                 <p className="text-sm text-white/60">
