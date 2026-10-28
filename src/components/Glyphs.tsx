@@ -3,23 +3,9 @@ import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { type ReactNode, useRef } from "react";
 
-gsap.registerPlugin(SplitText, useGSAP);
+import { GLYPH_COLORS } from "@/lib/palette";
 
-// Expanded palette: the video also shows teal, cyan, blue and pink tones,
-// not just the original five.
-const DEFAULT_COLORS = [
-  "#FF3D00",
-  "#FFB400",
-  "#F5D000",
-  "#9BE000",
-  "#2EDDB6",
-  "#2EC6E9",
-  "#3C6BEE",
-  "#6A5CFF",
-  "#B040FF",
-  "#D94FDC",
-  "#F7388A",
-];
+gsap.registerPlugin(SplitText, useGSAP);
 
 const range = (from: number, to: number) =>
   Array.from({ length: to - from + 1 }, (_, i) =>
@@ -84,6 +70,8 @@ type GlitchTitleProps = {
   /** Keep a stable reference (constant or useMemo) so the text is not re-split on every render. */
   lines?: Part[][];
   colors?: string[];
+  /** Optional content rendered above the title. */
+  badge?: ReactNode;
   /** Optional content rendered below the title. */
   children?: ReactNode;
 };
@@ -99,7 +87,8 @@ const resetChar = (char: HTMLElement) => {
 
 export default function GlitchTitle({
   lines = DEFAULT_LINES,
-  colors = DEFAULT_COLORS,
+  colors = GLYPH_COLORS,
+  badge,
   children,
 }: GlitchTitleProps) {
   const containerRef = useRef<HTMLElement>(null);
@@ -228,6 +217,7 @@ export default function GlitchTitle({
                 }));
 
                 // Previous lines are discarded on each re-split, so their listeners go with them.
+                // The bouncing demo button dispatches `mouseenter` here when it crosses the title.
                 line.addEventListener("mouseenter", (event) => {
                   const x = (event as MouseEvent).clientX;
 
@@ -266,6 +256,7 @@ export default function GlitchTitle({
       ref={containerRef}
       className="flex h-dvh w-full flex-col items-center justify-center bg-black pb-16 text-white"
     >
+      {badge ? <div className="mb-6">{badge}</div> : null}
       {/* SplitText creates <div>s for lines and characters, so they need position: relative. */}
       {/* Monospace font at ~5vw with ~1.24 line height and no tracking, as in the video.
           Swap the family for the one you have loaded (e.g. Geist Mono). */}

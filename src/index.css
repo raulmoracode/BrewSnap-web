@@ -93,6 +93,10 @@
     --clr-border-card: oklch(0.37 0 0);
     --clr-bg-badge: oklch(0.87 0 0);
     --clr-bg-card-hover: #ececec;
+    /* Accent shared by the demo button, the ecosystem badge and the install
+       prompt. It starts on the first glyph-palette colour; the demo button
+       overwrites it on every edge bounce. */
+    --demo-highlight: #ff3d00;
     --radius: 0.625rem;
   }
   .dark {
