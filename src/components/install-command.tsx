@@ -37,7 +37,13 @@ export function InstallCommand({ command, className }: InstallCommandProps) {
       )}
     >
       <code className="min-w-0 flex-1 font-mono text-[0.6875rem] whitespace-nowrap text-white/85 sm:text-[0.8125rem]">
-        <span className="select-none text-green-400">$</span> {command}
+        <span
+          className="select-none"
+          style={{ color: "var(--demo-highlight)" }}
+        >
+          $
+        </span>{" "}
+        {command}
       </code>
 
       <button

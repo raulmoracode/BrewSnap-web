@@ -10,7 +10,7 @@ export default function App() {
         badge={
           <PartOfRaulmoracode
             project="brewsnap"
-            highlightColor="#9BE000"
+            highlightColor="var(--demo-highlight)"
             className="text-white starting:text-white/40"
           />
         }
