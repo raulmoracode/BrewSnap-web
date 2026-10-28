@@ -50,6 +50,56 @@ export function DemoButton({ className }: DemoButtonProps) {
       button.style.transform = `translate3d(${nextX}px, ${nextY}px, 0)`;
     };
 
+    // The hero's ripple listens for `mouseenter` on each rendered line, so
+    // crossing a line with the button replays it exactly as a pointer would.
+    let lines: HTMLElement[] = [];
+    const overlapping = new Set<HTMLElement>();
+    const textRange = document.createRange();
+
+    const refreshLines = () => {
+      lines = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-line] > div"),
+      );
+      overlapping.clear();
+    };
+
+    const sweepTitle = () => {
+      // SplitText re-splits on resize and font load, which replaces the line
+      // elements; pick the new ones up and start the overlap tracking again.
+      if (lines.length === 0 || lines.some((line) => !line.isConnected)) {
+        refreshLines();
+      }
+
+      const centerX = x + width / 2;
+      const centerY = y + height / 2;
+
+      for (const line of lines) {
+        // A range measures the text itself, not the full-width line box.
+        textRange.selectNodeContents(line);
+        const rect = textRange.getBoundingClientRect();
+        const overlaps =
+          rect.right > x &&
+          rect.left < x + width &&
+          rect.bottom > y &&
+          rect.top < y + height;
+
+        if (!overlaps) {
+          overlapping.delete(line);
+          continue;
+        }
+
+        if (overlapping.has(line)) continue;
+
+        overlapping.add(line);
+        line.dispatchEvent(
+          new MouseEvent("mouseenter", {
+            clientX: centerX,
+            clientY: centerY,
+          }),
+        );
+      }
+    };
+
     const bounds = () => ({
       maxX: Math.max(EDGE_GAP, window.innerWidth - width - EDGE_GAP),
       maxY: Math.max(EDGE_GAP, window.innerHeight - height - EDGE_GAP),
@@ -136,6 +186,7 @@ export function DemoButton({ className }: DemoButtonProps) {
         setColorIndex((index) => (index + 1) % GLYPH_COLORS.length);
       }
 
+      sweepTitle();
       place(x, y);
     };
 

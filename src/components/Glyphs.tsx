@@ -214,6 +214,7 @@ export default function GlitchTitle({
                 }));
 
                 // Previous lines are discarded on each re-split, so their listeners go with them.
+                // The bouncing demo button dispatches `mouseenter` here when it crosses the title.
                 line.addEventListener("mouseenter", (event) => {
                   const x = (event as MouseEvent).clientX;
 
