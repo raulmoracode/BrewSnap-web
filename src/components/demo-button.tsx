@@ -250,7 +250,7 @@ export function DemoButton({ className }: DemoButtonProps) {
           borderColor: color,
         }}
         className={cn(
-          "fixed top-0 left-0 z-40 cursor-pointer rounded-full border bg-black/70 px-4 py-2 font-mono text-sm font-semibold tracking-[0.2em] backdrop-blur-sm will-change-transform focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:outline-none",
+          "fixed top-0 left-0 z-40 cursor-pointer rounded-full border bg-black/40 px-4 py-2 font-mono text-sm font-semibold tracking-[0.2em] backdrop-blur-sm will-change-transform focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:outline-none",
           "transition-opacity duration-200",
           placed ? "opacity-100" : "opacity-0",
           className,
