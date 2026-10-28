@@ -2,11 +2,20 @@ import { DemoButton } from "./components/demo-button";
 import { DownloadButton } from "./components/download-button";
 import Glyphs from "./components/Glyphs";
 import { InstallCommand } from "./components/install-command";
+import { PartOfRaulmoracode } from "./components/part-of-raulmoracode";
 
 export default function App() {
   return (
     <>
-      <Glyphs>
+      <Glyphs
+        badge={
+          <PartOfRaulmoracode
+            project="brewsnap"
+            highlightColor="var(--demo-highlight)"
+            className="text-white starting:text-white/40"
+          />
+        }
+      >
         <DownloadButton
           href="https://github.com/raulmoracode/BrewSnap-web/releases/latest"
           className="mt-10"
