@@ -11,6 +11,13 @@ const SPEED = 120;
 /** Gap kept between the button and the viewport edges. */
 const EDGE_GAP = 16;
 
+/** CSS variable the rest of the page reads to follow the button's colour. */
+const HIGHLIGHT_VAR = "--demo-highlight";
+
+const setHighlight = (color: string) => {
+  document.documentElement.style.setProperty(HIGHLIGHT_VAR, color);
+};
+
 type DemoButtonProps = {
   className?: string;
 };
@@ -28,6 +35,7 @@ export function DemoButton({ className }: DemoButtonProps) {
   const [open, setOpen] = useState(false);
   const [colorIndex, setColorIndex] = useState(0);
   const [placed, setPlaced] = useState(false);
+  const colorIndexRef = useRef(0);
 
   useEffect(() => {
     openedRef.current = open;
@@ -36,6 +44,10 @@ export function DemoButton({ className }: DemoButtonProps) {
   useEffect(() => {
     const button = buttonRef.current;
     if (!button) return;
+
+    // The badge and the install prompt read this variable, so all three start
+    // on the same colour and stay together after every bounce.
+    setHighlight(GLYPH_COLORS[colorIndexRef.current]);
 
     let width = button.offsetWidth;
     let height = button.offsetHeight;
@@ -183,7 +195,10 @@ export function DemoButton({ className }: DemoButtonProps) {
       }
 
       if (bounced) {
-        setColorIndex((index) => (index + 1) % GLYPH_COLORS.length);
+        const nextIndex = (colorIndexRef.current + 1) % GLYPH_COLORS.length;
+        colorIndexRef.current = nextIndex;
+        setColorIndex(nextIndex);
+        setHighlight(GLYPH_COLORS[nextIndex]);
       }
 
       sweepTitle();
@@ -202,6 +217,7 @@ export function DemoButton({ className }: DemoButtonProps) {
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("resize", handleResize);
+      document.documentElement.style.removeProperty(HIGHLIGHT_VAR);
     };
   }, []);
 
