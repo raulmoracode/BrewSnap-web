@@ -84,6 +84,8 @@ type GlitchTitleProps = {
   /** Keep a stable reference (constant or useMemo) so the text is not re-split on every render. */
   lines?: Part[][];
   colors?: string[];
+  /** Optional content rendered above the title. */
+  badge?: ReactNode;
   /** Optional content rendered below the title. */
   children?: ReactNode;
 };
@@ -100,6 +102,7 @@ const resetChar = (char: HTMLElement) => {
 export default function GlitchTitle({
   lines = DEFAULT_LINES,
   colors = DEFAULT_COLORS,
+  badge,
   children,
 }: GlitchTitleProps) {
   const containerRef = useRef<HTMLElement>(null);
@@ -266,6 +269,7 @@ export default function GlitchTitle({
       ref={containerRef}
       className="flex h-dvh w-full flex-col items-center justify-center bg-black pb-16 text-white"
     >
+      {badge ? <div className="mb-6">{badge}</div> : null}
       {/* SplitText creates <div>s for lines and characters, so they need position: relative. */}
       {/* Monospace font at ~5vw with ~1.24 line height and no tracking, as in the video.
           Swap the family for the one you have loaded (e.g. Geist Mono). */}
