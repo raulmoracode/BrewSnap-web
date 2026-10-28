@@ -15,6 +15,10 @@ export const site = {
   favicon: "https://cdn.raulmoracode.com/icons/favicon.ico",
   socialImage: "/imagen.png",
   socialImageAlt: "brewsnap-web — React 19 + Vite 8 + TypeScript 6",
+  /** Video played by the bouncing demo button's modal. */
+  demoVideo: "/demo.mp4",
+  /** Caption track for the demo video. */
+  demoVideoCaptions: "/demo.vtt",
   author: "Raul Mora",
   twitter: "@raulmoracode",
   locale: "es_ES",

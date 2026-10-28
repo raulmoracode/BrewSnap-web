@@ -3,23 +3,9 @@ import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { type ReactNode, useRef } from "react";
 
-gsap.registerPlugin(SplitText, useGSAP);
+import { GLYPH_COLORS } from "@/lib/palette";
 
-// Expanded palette: the video also shows teal, cyan, blue and pink tones,
-// not just the original five.
-const DEFAULT_COLORS = [
-  "#FF3D00",
-  "#FFB400",
-  "#F5D000",
-  "#9BE000",
-  "#2EDDB6",
-  "#2EC6E9",
-  "#3C6BEE",
-  "#6A5CFF",
-  "#B040FF",
-  "#D94FDC",
-  "#F7388A",
-];
+gsap.registerPlugin(SplitText, useGSAP);
 
 const range = (from: number, to: number) =>
   Array.from({ length: to - from + 1 }, (_, i) =>
@@ -99,7 +85,7 @@ const resetChar = (char: HTMLElement) => {
 
 export default function GlitchTitle({
   lines = DEFAULT_LINES,
-  colors = DEFAULT_COLORS,
+  colors = GLYPH_COLORS,
   children,
 }: GlitchTitleProps) {
   const containerRef = useRef<HTMLElement>(null);
