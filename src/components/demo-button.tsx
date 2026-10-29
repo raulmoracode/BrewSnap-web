@@ -4,6 +4,7 @@ import { site } from "@/config/site";
 import { GLYPH_COLORS } from "@/lib/palette";
 import { cn } from "@/lib/utils";
 import { DemoModal } from "./demo-modal";
+import { GLYPH_CANVAS_ATTRIBUTE } from "./glyph-text";
 
 /** Travel speed in pixels per second. Slow enough to be an easy target. */
 const SPEED = 120;
@@ -13,6 +14,8 @@ const EDGE_GAP = 16;
 
 /** CSS variable the rest of the page reads to follow the button's colour. */
 const HIGHLIGHT_VAR = "--demo-highlight";
+
+const HERO_SELECTOR = `[${GLYPH_CANVAS_ATTRIBUTE}]`;
 
 const setHighlight = (color: string) => {
   document.documentElement.style.setProperty(HIGHLIGHT_VAR, color);
@@ -62,54 +65,39 @@ export function DemoButton({ className }: DemoButtonProps) {
       button.style.transform = `translate3d(${nextX}px, ${nextY}px, 0)`;
     };
 
-    // The hero's ripple listens for `mouseenter` on each rendered line, so
-    // crossing a line with the button replays it exactly as a pointer would.
-    let lines: HTMLElement[] = [];
-    const overlapping = new Set<HTMLElement>();
-    const textRange = document.createRange();
-
-    const refreshLines = () => {
-      lines = Array.from(
-        document.querySelectorAll<HTMLElement>("[data-line] > div"),
-      );
-      overlapping.clear();
-    };
+    // The hero is a canvas, so crossing it replays the ripple by forwarding the
+    // button's centre as pointer coordinates: the engine trails it exactly as
+    // it would a real pointer.
+    let hero: HTMLElement | null = null;
+    let wasInside = false;
 
     const sweepTitle = () => {
-      // SplitText re-splits on resize and font load, which replaces the line
-      // elements; pick the new ones up and start the overlap tracking again.
-      if (lines.length === 0 || lines.some((line) => !line.isConnected)) {
-        refreshLines();
+      // The hero can remount, so re-query when the element is gone.
+      if (!hero?.isConnected) {
+        hero = document.querySelector<HTMLElement>(HERO_SELECTOR);
       }
+      if (!hero) return;
 
       const centerX = x + width / 2;
       const centerY = y + height / 2;
+      const rect = hero.getBoundingClientRect();
+      const inside =
+        rect.right > x &&
+        rect.left < x + width &&
+        rect.bottom > y &&
+        rect.top < y + height;
 
-      for (const line of lines) {
-        // A range measures the text itself, not the full-width line box.
-        textRange.selectNodeContents(line);
-        const rect = textRange.getBoundingClientRect();
-        const overlaps =
-          rect.right > x &&
-          rect.left < x + width &&
-          rect.bottom > y &&
-          rect.top < y + height;
-
-        if (!overlaps) {
-          overlapping.delete(line);
-          continue;
-        }
-
-        if (overlapping.has(line)) continue;
-
-        overlapping.add(line);
-        line.dispatchEvent(
-          new MouseEvent("mouseenter", {
-            clientX: centerX,
-            clientY: centerY,
+      if (inside) {
+        hero.dispatchEvent(
+          new CustomEvent("glyphs:pointermove", {
+            detail: { x: centerX, y: centerY },
           }),
         );
+      } else if (wasInside) {
+        hero.dispatchEvent(new Event("glyphs:pointerleave"));
       }
+
+      wasInside = inside;
     };
 
     const bounds = () => ({
@@ -215,6 +203,7 @@ export function DemoButton({ className }: DemoButtonProps) {
     window.addEventListener("resize", handleResize);
 
     return () => {
+      if (wasInside) hero?.dispatchEvent(new Event("glyphs:pointerleave"));
       cancelAnimationFrame(frame);
       window.removeEventListener("resize", handleResize);
       document.documentElement.style.removeProperty(HIGHLIGHT_VAR);

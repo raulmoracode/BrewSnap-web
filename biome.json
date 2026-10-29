@@ -37,6 +37,18 @@
       "assist": {
         "enabled": false
       }
+    },
+    {
+      "includes": ["src/lib/glyphs-engine.js"],
+      "formatter": {
+        "enabled": false
+      },
+      "linter": {
+        "enabled": false
+      },
+      "assist": {
+        "enabled": false
+      }
     }
   ]
 }
