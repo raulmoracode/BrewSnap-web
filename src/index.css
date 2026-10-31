@@ -174,9 +174,8 @@
     --demo-highlight: var(--fg-brand);
     /* A darker orange for text: #ff3d00 is only 3.2:1 on the light page. */
     --accent-text: #c03400;
-    /* The palette colours are tuned for a dark ground; a dark pill keeps every
-       bounce legible on the light theme instead of yellow on white. */
-    --demo-surface: oklch(0 0 0 / 85%);
+    /* Surface behind the floating demo pill in light mode. */
+    --demo-surface: oklch(1 0 0 / 65%);
     --radius: 0.625rem;
   }
 
