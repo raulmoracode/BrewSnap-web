@@ -1,6 +1,8 @@
 import { Copy, CopyCheck } from "@raulmoracode/icons";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 type CopyStatus = "idle" | "copied" | "error";
@@ -32,29 +34,36 @@ export function InstallCommand({ command, className }: InstallCommandProps) {
   return (
     <div
       className={cn(
-        "flex w-full max-w-[26rem] items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.04] py-1.5 pr-1.5 pl-4",
+        "flex w-full max-w-[26rem] items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.04] py-1.5 pr-1.5 pl-4 focus-within:ring-1 focus-within:ring-white/30",
         className,
       )}
     >
-      <code className="min-w-0 flex-1 font-mono text-[0.6875rem] whitespace-nowrap text-white/85 sm:text-[0.8125rem]">
-        <span
-          className="select-none"
-          style={{ color: "var(--demo-highlight)" }}
-        >
-          $
-        </span>{" "}
-        {command}
-      </code>
+      <span
+        aria-hidden="true"
+        className="select-none font-mono text-[0.6875rem] sm:text-[0.8125rem]"
+        style={{ color: "var(--demo-highlight)" }}
+      >
+        $
+      </span>
+      <Input
+        readOnly
+        value={command}
+        aria-label="Install command"
+        spellCheck={false}
+        className="h-auto min-w-0 flex-1 rounded-none border-0 bg-transparent p-0 font-mono text-[0.6875rem] text-white/85 shadow-none focus-visible:ring-0 sm:text-[0.8125rem] md:text-[0.8125rem]"
+      />
 
-      <button
+      <Button
         type="button"
+        variant="ghost"
+        size="icon"
         onClick={copy}
         title={status === "copied" ? "Copied" : "Copy command"}
         aria-label={`Copy install command: ${command}`}
-        className="grid size-7 shrink-0 place-items-center rounded-lg text-white/40 transition-colors hover:bg-white/10 hover:text-white focus-visible:ring-1 focus-visible:ring-white/40 focus-visible:outline-none"
+        className="h-7 w-7 shrink-0 rounded-lg text-white/40 hover:bg-white/10 hover:text-white [&_svg]:size-3.5"
       >
         {status === "copied" ? <CopyCheck size={14} /> : <Copy size={14} />}
-      </button>
+      </Button>
 
       <span role="status" aria-live="polite" className="sr-only">
         {status === "copied" && "Install command copied"}
