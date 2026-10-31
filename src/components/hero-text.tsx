@@ -70,7 +70,7 @@ export function HeroText({ badge, children }: HeroTextProps) {
           }
         />
       </div>
-      <div className="relative z-30 flex w-full flex-col items-center px-6">
+      <div className="relative z-30 flex w-full flex-col items-center">
         {children}
       </div>
     </section>
