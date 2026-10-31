@@ -18,7 +18,7 @@ export default function App() {
           />
         }
       >
-        <div className="mt-16 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-16 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <DownloadButton
             href="https://github.com/raulmoracode/BrewSnap/releases"
             platform="macos"
