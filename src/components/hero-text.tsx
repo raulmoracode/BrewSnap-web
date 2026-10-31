@@ -44,7 +44,7 @@ export function HeroText({ badge, children }: HeroTextProps) {
   }, []);
 
   return (
-    <section className="flex h-dvh w-full flex-col items-center justify-center overflow-hidden bg-black pb-16 text-white">
+    <section className="flex h-dvh w-full flex-col items-center justify-center overflow-hidden bg-background pb-16 text-fg-strong">
       {badge ? <div className="relative z-30 mb-12">{badge}</div> : null}
       <h1 className="sr-only">{HERO_LABEL}</h1>
       {/* Four rows at 1.2 line height; the box keeps the text's proportion at

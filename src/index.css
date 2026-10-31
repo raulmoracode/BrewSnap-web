@@ -27,6 +27,14 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-fg-strong: var(--fg-strong);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-faint: var(--fg-faint);
+  --color-fg-brand: var(--fg-brand);
+  --color-fg-inverse: var(--fg-inverse);
+  --color-fg-on-light: var(--fg-on-light);
+  --color-fg-on-dark: var(--fg-on-dark);
+  --color-accent-text: var(--accent-text);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
@@ -64,99 +72,120 @@
 }
 
 @layer base {
-  :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --destructive-foreground: oklch(0.985 0 0);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
-    --clr-main: oklch(0.145 0 0);
-    --clr-sub: oklch(0.27 0 0);
-    --clr-dim: oklch(0.556 0 0);
-    --clr-dim-plus: oklch(0.3 0 0);
-    --clr-dim-tag: oklch(0.2 0 0);
-    --clr-faint: oklch(0.645 0 0);
-    --clr-hover: oklch(0 0 0);
-    --clr-border-subtle: oklch(0.922 0 0);
-    --clr-border-card: oklch(0.37 0 0);
-    --clr-bg-badge: oklch(0.87 0 0);
-    --clr-bg-card-hover: #ececec;
-    /* Accent shared by the demo button, the ecosystem badge and the install
-       prompt. It starts on the first glyph-palette colour; the demo button
-       overwrites it on every edge bounce. */
-    --demo-highlight: #ff3d00;
-    --radius: 0.625rem;
-  }
+  /* Dark is the default theme: both selectors resolve to the BrewSnap palette
+     so token-based components look right with or without a `.dark` class. */
+  :root,
   .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --destructive-foreground: oklch(0.145 0 0);
+    /* One semantic text scale: every text colour in the app resolves here. */
+    --fg-strong: #ffffff;
+    --fg-muted: #8a8a8a;
+    --fg-faint: #68676a;
+    --fg-brand: #ff3d00;
+    --fg-inverse: #000000;
+    --fg-on-light: #0b0d09;
+    --fg-on-dark: #fafafa;
+    --background: #000000;
+    --foreground: var(--fg-strong);
+    --card: #0a0a0a;
+    --card-foreground: var(--fg-strong);
+    --popover: #0a0a0a;
+    --popover-foreground: var(--fg-strong);
+    --primary: var(--fg-brand);
+    --primary-foreground: var(--fg-inverse);
+    --secondary: #141414;
+    --secondary-foreground: var(--fg-strong);
+    --muted: #141414;
+    --muted-foreground: var(--fg-muted);
+    --accent: #1a1a1a;
+    --accent-foreground: var(--fg-strong);
+    --destructive: #ff5c5c;
+    --destructive-foreground: var(--fg-inverse);
     --border: oklch(1 0 0 / 10%);
     --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.708 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --ring: oklch(1 0 0 / 60%);
+    --chart-1: #ff3d00;
+    --chart-2: #ffb400;
+    --chart-3: #9be000;
+    --chart-4: #2ec6e9;
+    --chart-5: #6a5cff;
+    --sidebar: #0a0a0a;
+    --sidebar-foreground: var(--fg-strong);
+    --sidebar-primary: var(--fg-brand);
+    --sidebar-primary-foreground: var(--fg-inverse);
+    --sidebar-accent: #1a1a1a;
+    --sidebar-accent-foreground: var(--fg-strong);
     --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
-    --clr-main: oklch(0.985 0 0);
-    --clr-sub: oklch(0.708 0 0);
-    --clr-dim: oklch(0.556 0 0);
-    --clr-dim-plus: oklch(0.8 0 0);
-    --clr-dim-tag: oklch(0.9 0 0);
-    --clr-faint: oklch(0.556 0 0);
-    --clr-hover: oklch(1 0 0);
-    --clr-border-subtle: oklch(1 0 0 / 10%);
-    --clr-border-card: oklch(0.269 0 0);
-    --clr-bg-badge: oklch(0.269 0 0);
-    --clr-bg-card-hover: oklch(0.205 0 0);
+    --sidebar-ring: oklch(1 0 0 / 60%);
+    /* Accent shared by the demo button, the ecosystem badge and the install
+       prompt. It starts on the brand colour; the demo button overwrites it on
+       every edge bounce. */
+    --demo-highlight: var(--fg-brand);
+    /* Badge text accent: follows the palette exactly in both themes. */
+    --accent-text: var(--demo-highlight);
+    /* Surface behind the floating demo pill: follows the theme. */
+    --demo-surface: oklch(0 0 0 / 40%);
+    --radius: 0.625rem;
+  }
+
+  /* Opt-in light theme: activated by `.light` on <html>, applied before paint
+     by the inline script in index.html. Dark stays the default. */
+  .light {
+    color-scheme: light;
+    --fg-strong: #0b0d09;
+    --fg-muted: #5f5f66;
+    --fg-faint: #68676a;
+    --fg-brand: #ff3d00;
+    --fg-inverse: #000000;
+    --fg-on-light: #0b0d09;
+    --fg-on-dark: #fafafa;
+
+    --background: #f4f3ed;
+    --foreground: var(--fg-strong);
+    --card: #ffffff;
+    --card-foreground: var(--fg-strong);
+    --popover: #ffffff;
+    --popover-foreground: var(--fg-strong);
+    --primary: var(--fg-brand);
+    --primary-foreground: var(--fg-inverse);
+    --secondary: #ecebe5;
+    --secondary-foreground: var(--fg-strong);
+    --muted: #ecebe5;
+    --muted-foreground: var(--fg-muted);
+    --accent: #ecebe5;
+    --accent-foreground: var(--fg-strong);
+    --destructive: #e5484d;
+    --destructive-foreground: var(--fg-on-dark);
+    --border: oklch(0 0 0 / 10%);
+    --input: oklch(0 0 0 / 15%);
+    --ring: oklch(0 0 0 / 60%);
+    --chart-1: #ff3d00;
+    --chart-2: #ffb400;
+    --chart-3: #9be000;
+    --chart-4: #2ec6e9;
+    --chart-5: #6a5cff;
+    --sidebar: #ffffff;
+    --sidebar-foreground: var(--fg-strong);
+    --sidebar-primary: var(--fg-brand);
+    --sidebar-primary-foreground: var(--fg-inverse);
+    --sidebar-accent: #ecebe5;
+    --sidebar-accent-foreground: var(--fg-strong);
+    --sidebar-border: oklch(0 0 0 / 10%);
+    --sidebar-ring: oklch(0 0 0 / 60%);
+    --demo-highlight: var(--fg-brand);
+    /* A darker orange for text: #ff3d00 is only 3.2:1 on the light page. */
+    --accent-text: #c03400;
+    /* The palette colours are tuned for a dark ground; a dark pill keeps every
+       bounce legible on the light theme instead of yellow on white. */
+    --demo-surface: oklch(0 0 0 / 85%);
+    --radius: 0.625rem;
+  }
+
+  html {
+    color-scheme: dark;
+    @apply bg-background;
+  }
+
+  body {
+    @apply bg-background text-foreground;
   }
 }
