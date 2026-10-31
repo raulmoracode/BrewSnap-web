@@ -172,8 +172,8 @@
     --sidebar-border: oklch(0 0 0 / 10%);
     --sidebar-ring: oklch(0 0 0 / 60%);
     --demo-highlight: var(--fg-brand);
-    /* A darker orange for text: #ff3d00 is only 3.2:1 on the light page. */
-    --accent-text: #c03400;
+    /* Badge text accent: follows the palette exactly in both themes. */
+    --accent-text: var(--demo-highlight);
     /* Surface behind the floating demo pill in light mode. */
     --demo-surface: oklch(1 0 0 / 65%);
     --radius: 0.625rem;
