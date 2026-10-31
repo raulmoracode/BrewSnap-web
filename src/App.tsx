@@ -1,13 +1,13 @@
 import { DemoButton } from "./components/demo-button";
 import { DownloadButton } from "./components/download-button";
-import Glyphs from "./components/Glyphs";
+import { HeroText } from "./components/hero-text";
 import { InstallCommand } from "./components/install-command";
 import { PartOfRaulmoracode } from "./components/part-of-raulmoracode";
 
 export default function App() {
   return (
     <>
-      <Glyphs
+      <HeroText
         badge={
           <PartOfRaulmoracode
             project="brewsnap"
@@ -25,7 +25,7 @@ export default function App() {
           command="brew install raulmoracode/tap/brewsnap"
           className="mt-5"
         />
-      </Glyphs>
+      </HeroText>
       <DemoButton />
       <footer className="fixed inset-x-0 bottom-0 z-10 px-6 pb-5 text-center text-[0.8125rem] leading-none text-white/50">
         Heavily inspired by{" "}
