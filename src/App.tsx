@@ -3,6 +3,7 @@ import { DownloadButton } from "./components/download-button";
 import { HeroText } from "./components/hero-text";
 import { InstallCommand } from "./components/install-command";
 import { PartOfRaulmoracode } from "./components/part-of-raulmoracode";
+import { StarGithubButton } from "./components/star-github-button";
 import { ThemeToggle } from "./components/theme-toggle";
 
 export default function App() {
@@ -17,11 +18,13 @@ export default function App() {
           />
         }
       >
-        <DownloadButton
-          href="https://github.com/raulmoracode/BrewSnap-web/releases/latest"
-          className="mt-10"
-          platform="macos"
-        />
+        <div className="mt-16 flex flex-wrap items-center justify-center gap-3">
+          <DownloadButton
+            href="https://github.com/raulmoracode/BrewSnap/releases"
+            platform="macos"
+          />
+          <StarGithubButton repoUrl="https://github.com/raulmoracode/BrewSnap" />
+        </div>
         <InstallCommand
           command="brew install raulmoracode/tap/brewsnap"
           className="mt-5"
