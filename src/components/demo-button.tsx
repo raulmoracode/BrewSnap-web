@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { DemoModal } from "./demo-modal";
 
 /** Travel speed in pixels per second. Slow enough to be an easy target. */
-const SPEED = 120;
+const SPEED = 75;
 
 /** Gap kept between the button and the viewport edges. */
 const EDGE_GAP = 16;
