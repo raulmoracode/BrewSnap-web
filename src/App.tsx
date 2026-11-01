@@ -4,7 +4,6 @@ import { HeroText } from "./components/hero-text";
 import { InstallCommand } from "./components/install-command";
 import { PartOfRaulmoracode } from "./components/part-of-raulmoracode";
 import { StarGithubButton } from "./components/star-github-button";
-import { ThemeToggle } from "./components/theme-toggle";
 
 export default function App() {
   return (
@@ -31,7 +30,6 @@ export default function App() {
         />
       </HeroText>
       <DemoButton />
-      <ThemeToggle />
       <footer className="fixed inset-x-0 bottom-0 z-10 px-6 pb-5 text-center text-[0.8125rem] leading-none text-fg-muted">
         Heavily inspired by{" "}
         <a

@@ -72,10 +72,8 @@
 }
 
 @layer base {
-  /* Dark is the default theme: both selectors resolve to the BrewSnap palette
-     so token-based components look right with or without a `.dark` class. */
-  :root,
-  .dark {
+  /* Dark is the only theme: every token resolves on :root. */
+  :root {
     /* One semantic text scale: every text colour in the app resolves here. */
     --fg-strong: #ffffff;
     --fg-muted: #8a8a8a;
@@ -120,62 +118,10 @@
        prompt. It starts on the brand colour; the demo button overwrites it on
        every edge bounce. */
     --demo-highlight: var(--fg-brand);
-    /* Badge text accent: follows the palette exactly in both themes. */
+    /* Badge text accent: follows the palette exactly. */
     --accent-text: var(--demo-highlight);
-    /* Surface behind the floating demo pill: follows the theme. */
+    /* Surface behind the floating demo pill. */
     --demo-surface: oklch(0 0 0 / 40%);
-    --radius: 0.625rem;
-  }
-
-  /* Opt-in light theme: activated by `.light` on <html>, applied before paint
-     by the inline script in index.html. Dark stays the default. */
-  .light {
-    color-scheme: light;
-    --fg-strong: #0b0d09;
-    --fg-muted: #5f5f66;
-    --fg-faint: #68676a;
-    --fg-brand: #ff3d00;
-    --fg-inverse: #000000;
-    --fg-on-light: #0b0d09;
-    --fg-on-dark: #fafafa;
-
-    --background: #e6e4d8;
-    --foreground: var(--fg-strong);
-    --card: #ffffff;
-    --card-foreground: var(--fg-strong);
-    --popover: #ffffff;
-    --popover-foreground: var(--fg-strong);
-    --primary: var(--fg-brand);
-    --primary-foreground: var(--fg-inverse);
-    --secondary: #ecebe5;
-    --secondary-foreground: var(--fg-strong);
-    --muted: #ecebe5;
-    --muted-foreground: var(--fg-muted);
-    --accent: #ecebe5;
-    --accent-foreground: var(--fg-strong);
-    --destructive: #e5484d;
-    --destructive-foreground: var(--fg-on-dark);
-    --border: oklch(0 0 0 / 10%);
-    --input: oklch(0 0 0 / 15%);
-    --ring: oklch(0 0 0 / 60%);
-    --chart-1: #ff3d00;
-    --chart-2: #ffb400;
-    --chart-3: #9be000;
-    --chart-4: #2ec6e9;
-    --chart-5: #6a5cff;
-    --sidebar: #ffffff;
-    --sidebar-foreground: var(--fg-strong);
-    --sidebar-primary: var(--fg-brand);
-    --sidebar-primary-foreground: var(--fg-inverse);
-    --sidebar-accent: #ecebe5;
-    --sidebar-accent-foreground: var(--fg-strong);
-    --sidebar-border: oklch(0 0 0 / 10%);
-    --sidebar-ring: oklch(0 0 0 / 60%);
-    --demo-highlight: var(--fg-brand);
-    /* Badge text accent: follows the palette exactly in both themes. */
-    --accent-text: var(--demo-highlight);
-    /* Surface behind the floating demo pill in light mode. */
-    --demo-surface: oklch(1 0 0 / 65%);
     --radius: 0.625rem;
   }
 
