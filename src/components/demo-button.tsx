@@ -204,7 +204,7 @@ export function DemoButton({ className }: DemoButtonProps) {
           focusedRef.current = false;
         }}
         className={cn(
-          "fixed top-0 left-0 z-40 h-auto cursor-pointer rounded-full border border-[var(--demo-highlight)] bg-black/40 px-4 py-2 font-press text-sm font-normal tracking-[0.2em] text-[var(--demo-highlight)] shadow-none backdrop-blur-sm will-change-transform hover:bg-black/40 hover:text-[var(--demo-highlight)] focus-visible:ring-2 focus-visible:ring-white/60",
+          "fixed top-0 left-0 z-40 h-auto cursor-pointer rounded-full border border-[var(--demo-highlight)] bg-[var(--demo-surface)] px-4 py-2 font-press text-sm font-normal tracking-[0.2em] text-[var(--demo-highlight)] shadow-none backdrop-blur-sm will-change-transform hover:bg-[var(--demo-surface)] hover:text-[var(--demo-highlight)] focus-visible:ring-2 focus-visible:ring-ring",
           "transition-opacity duration-200",
           placed ? "opacity-100" : "opacity-0",
           className,

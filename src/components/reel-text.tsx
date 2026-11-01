@@ -1,4 +1,4 @@
-import { type CSSProperties, useEffect, useRef } from "react";
+import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { REEL_COLORS } from "@/lib/palette";
 import ReelEngine, { type ReelEffect } from "@/lib/reel";
 import { cn } from "@/lib/utils";
@@ -63,13 +63,33 @@ export function ReelText({
   lineHeight = 1.1,
   tracking = 0,
   font = "PT Mono",
-  ink = "#68676A",
-  bright = "#FFFFFF",
-  ground = "#000000",
+  ink,
+  bright,
+  ground,
   className,
   style,
 }: ReelTextProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [themeVersion, setThemeVersion] = useState(0);
+
+  // The canvas bakes the theme colours in when it is created, so the class on
+  // <html> is watched to rebuild it when the theme changes: the hero cannot
+  // stay dark on a light page without a reload.
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+
+    const observer = new MutationObserver(() => {
+      setThemeVersion((version) => version + 1);
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   // The effect is pointer-driven, so reduced motion keeps the text and takes
   // the pointer away instead of disabling the canvas.
   const reducedMotion =
@@ -86,6 +106,19 @@ export function ReelText({
       typeof document !== "undefined" && document.fonts
         ? document.fonts.load(`400 16px "${font}"`).catch(() => undefined)
         : undefined;
+
+    // The canvas reads the same text tokens as the DOM, so the hero cannot
+    // drift from the rest of the page.
+    const rootStyle = getComputedStyle(document.documentElement);
+    const inkColor =
+      ink ?? (rootStyle.getPropertyValue("--fg-faint").trim() || "#68676A");
+    const brightColor =
+      bright ?? (rootStyle.getPropertyValue("--fg-strong").trim() || "#FFFFFF");
+    // The ground follows the page background, so the canvas is white on the
+    // light theme and black on the default one.
+    const groundColor =
+      ground ??
+      (rootStyle.getPropertyValue("--background").trim() || "#000000");
 
     const controller = ReelEngine.createReel(container, {
       effect,
@@ -104,12 +137,12 @@ export function ReelText({
       colors: REEL_COLORS.length,
       symbols: `${ReelEngine.SYMBOLS}${EXTRA_SYMBOLS}`,
       ...PALETTE_OPTIONS,
-      ink,
-      bright,
-      inkDark: ink,
-      brightDark: bright,
-      ground,
-      groundDark: ground,
+      ink: inkColor,
+      bright: brightColor,
+      inkDark: inkColor,
+      brightDark: brightColor,
+      ground: groundColor,
+      groundDark: groundColor,
     });
 
     // The element marked as the text area is the text box, not the taller
@@ -167,6 +200,7 @@ export function ReelText({
     bright,
     ground,
     reducedMotion,
+    themeVersion,
   ]);
 
   return (

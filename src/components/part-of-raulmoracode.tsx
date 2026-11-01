@@ -25,7 +25,7 @@ export function PartOfRaulmoracode({
         href={LINKS.web}
         target="_blank"
         rel="noreferrer"
-        className={`inline-flex items-center gap-1.5 font-mono text-[14px] text-main transition-colors duration-300 ease-out starting:text-dim/60 ${className ? `${className}` : ""}`}
+        className={`inline-flex items-center gap-1.5 font-mono text-[14px] text-fg-strong transition-colors duration-300 ease-out starting:text-fg-muted/60 ${className ? `${className}` : ""}`}
         aria-label={`${project} — part of raulmoracode ecosystem`}
       >
         <span>{project}</span>
@@ -37,7 +37,7 @@ export function PartOfRaulmoracode({
         >
           {" "}
           raulmoracode
-          <span className="text-main transition-colors duration-300 ease-out starting:text-dim/60">
+          <span className="text-fg-strong transition-colors duration-300 ease-out starting:text-fg-muted/60">
             .com
           </span>
         </span>

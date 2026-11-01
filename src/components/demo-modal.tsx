@@ -45,7 +45,7 @@ export function DemoModal({
           event.preventDefault();
           returnFocusRef.current.focus();
         }}
-        className="w-[min(92vw,56rem)] max-w-none gap-0 overflow-hidden rounded-2xl border-white/10 bg-black p-0 text-white shadow-2xl outline-none sm:rounded-2xl"
+        className="w-[min(92vw,56rem)] max-w-none gap-0 overflow-hidden rounded-2xl border-border bg-background p-0 text-foreground shadow-2xl outline-none sm:rounded-2xl"
       >
         <DialogTitle className="sr-only">BrewSnap demo</DialogTitle>
 
@@ -56,7 +56,7 @@ export function DemoModal({
 
         {showFallback ? (
           <div className="flex aspect-video w-full items-center justify-center px-6 text-center">
-            <p className="text-sm text-white/60">
+            <p className="text-sm text-fg-muted">
               The demo video is not available yet.
             </p>
           </div>
