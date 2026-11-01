@@ -31,10 +31,12 @@ export function InstallCommand({ command, className }: InstallCommandProps) {
     }
   }, [command]);
 
+  // 3rem leaves a 24px gutter on each side so the bar never touches the mobile
+  // edges; the max-width keeps it compact on desktop.
   return (
     <div
       className={cn(
-        "flex w-full max-w-[26rem] items-center gap-2 rounded-2xl border border-border bg-card py-1.5 pr-1.5 pl-4 focus-within:ring-1 focus-within:ring-ring/30",
+        "flex w-[calc(100%-3rem)] max-w-[26rem] items-center gap-2 rounded-2xl border border-border bg-card py-1.5 pr-1.5 pl-4 focus-within:ring-1 focus-within:ring-ring/30",
         className,
       )}
     >
