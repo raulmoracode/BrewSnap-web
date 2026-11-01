@@ -1,6 +1,7 @@
 import { Copy, CopyCheck } from "@raulmoracode/icons";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type CopyStatus = "idle" | "copied" | "error";
@@ -18,10 +19,6 @@ type InstallPanelProps = {
 /** Row grid shared by both lines: label, value, action. */
 const ROW =
   "grid min-h-[3.25rem] grid-cols-[5rem_minmax(0,1fr)_2.25rem] items-center gap-3 py-1.5 pr-2 pl-4 sm:grid-cols-[7rem_minmax(0,1fr)_2.25rem] sm:gap-4 sm:pl-[1.1rem]";
-
-/** Copy/download action, sized and bordered like the reference stack. */
-const ACTION =
-  "inline-flex size-9 shrink-0 items-center justify-center rounded-[0.55rem] border border-fg-strong/15 text-fg-strong transition-colors hover:border-fg-strong/30 hover:bg-fg-strong/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 
 /**
  * Installation stack modelled on the panel at https://anoma.ly/hex/: each row
@@ -65,32 +62,29 @@ export function InstallPanel({
         <span className="min-w-0 text-[0.8rem] text-fg-muted">
           {downloadDetail}
         </span>
-        <a
-          href={downloadHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          title="Download"
-          className={cn(
-            ACTION,
-            "border-fg-strong bg-fg-strong text-background hover:border-fg-strong hover:bg-fg-strong/90",
-          )}
-        >
-          <span className="sr-only">
-            Download BrewSnap for {downloadDetail}
-          </span>
-          <svg
-            aria-hidden="true"
-            className="size-4"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={1.8}
-            strokeLinecap="round"
-            strokeLinejoin="round"
+        <Button asChild variant="default" size="icon" className="shrink-0">
+          <a
+            href={downloadHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Download"
           >
-            <path d="M12 4.5v11M7 11l5 5 5-5M5 19.5h14" />
-          </svg>
-        </a>
+            <span className="sr-only">
+              Download BrewSnap for {downloadDetail}
+            </span>
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.8}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 4.5v11M7 11l5 5 5-5M5 19.5h14" />
+            </svg>
+          </a>
+        </Button>
       </div>
 
       <div className={cn(ROW, "border-t border-fg-strong/[0.07]")}>
@@ -103,8 +97,10 @@ export function InstallPanel({
         >
           {installCommand}
         </code>
-        <button
+        <Button
           type="button"
+          variant="outline"
+          size="icon"
           onClick={copy}
           aria-label="Copy Homebrew command"
           title={
@@ -114,14 +110,14 @@ export function InstallPanel({
                 ? "Could not copy"
                 : "Copy"
           }
-          className={ACTION}
+          className="shrink-0"
         >
           {status === "copied" ? (
-            <CopyCheck className="size-4" aria-hidden="true" />
+            <CopyCheck aria-hidden="true" />
           ) : (
-            <Copy className="size-4" aria-hidden="true" />
+            <Copy aria-hidden="true" />
           )}
-        </button>
+        </Button>
       </div>
 
       <span role="status" aria-live="polite" className="sr-only">
