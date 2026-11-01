@@ -39,7 +39,7 @@
       }
     },
     {
-      "includes": ["src/lib/glyphs-engine.js"],
+      "includes": ["src/lib/reel-engine.js"],
       "formatter": {
         "enabled": false
       },

@@ -1,39 +1,44 @@
 import { DemoButton } from "./components/demo-button";
 import { DownloadButton } from "./components/download-button";
-import Glyphs from "./components/Glyphs";
+import { HeroText } from "./components/hero-text";
 import { InstallCommand } from "./components/install-command";
 import { PartOfRaulmoracode } from "./components/part-of-raulmoracode";
+import { StarGithubButton } from "./components/star-github-button";
+import { ThemeToggle } from "./components/theme-toggle";
 
 export default function App() {
   return (
     <>
-      <Glyphs
+      <HeroText
         badge={
           <PartOfRaulmoracode
             project="brewsnap"
-            highlightColor="var(--demo-highlight)"
-            className="text-white starting:text-white/40"
+            highlightClassName="text-accent-text"
+            className="text-fg-strong starting:text-fg-strong/40"
           />
         }
       >
-        <DownloadButton
-          href="https://github.com/raulmoracode/BrewSnap-web/releases/latest"
-          className="mt-10"
-          platform="macos"
-        />
+        <div className="mt-16 flex flex-wrap items-center justify-center gap-3">
+          <DownloadButton
+            href="https://github.com/raulmoracode/BrewSnap/releases"
+            platform="macos"
+          />
+          <StarGithubButton repoUrl="https://github.com/raulmoracode/BrewSnap" />
+        </div>
         <InstallCommand
           command="brew install raulmoracode/tap/brewsnap"
           className="mt-5"
         />
-      </Glyphs>
+      </HeroText>
       <DemoButton />
-      <footer className="fixed inset-x-0 bottom-0 z-10 px-6 pb-5 text-center text-[0.8125rem] leading-none text-white/50">
+      <ThemeToggle />
+      <footer className="fixed inset-x-0 bottom-0 z-10 px-6 pb-5 text-center text-[0.8125rem] leading-none text-fg-muted">
         Heavily inspired by{" "}
         <a
           href="https://codepen.io/Andrea-Catanzaro/pen/bNgyqbp"
           target="_blank"
           rel="noopener noreferrer"
-          className="underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-white"
+          className="underline decoration-fg-strong/30 underline-offset-4 transition-colors hover:text-fg-strong hover:decoration-fg-strong"
         >
           Andrea Catanzaro
         </a>

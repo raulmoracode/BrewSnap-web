@@ -1,5 +1,3 @@
-"use client";
-
 import { Apple, Linux, Windows } from "@raulmoracode/icons";
 import * as React from "react";
 
@@ -20,15 +18,16 @@ interface DownloadButtonProps
 const platformConfig = {
   macos: {
     icon: Apple,
-    className: "bg-[#fafafa] text-[#0b0d09] [a]:hover:bg-[#fafafa]",
+    className:
+      "border border-black/10 bg-[#fafafa] text-fg-on-light [a]:hover:bg-[#fafafa]",
   },
   windows: {
     icon: Windows,
-    className: "bg-[#0078D4] text-[#fafafa] [a]:hover:bg-[#0078D4]",
+    className: "bg-[#0078D4] text-fg-on-dark [a]:hover:bg-[#0078D4]",
   },
   linux: {
     icon: Linux,
-    className: "bg-[#7B2CBF] text-[#fafafa] [a]:hover:bg-[#7B2CBF]",
+    className: "bg-[#7B2CBF] text-fg-on-dark [a]:hover:bg-[#7B2CBF]",
   },
 } satisfies Record<
   Platform,
@@ -88,7 +87,7 @@ export function DownloadButton({
     >
       <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
         <Icon />
-        <span data-download-label>Download</span>
+        <span>Download</span>
       </a>
     </Button>
   );

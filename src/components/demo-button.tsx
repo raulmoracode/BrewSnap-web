@@ -1,21 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 
+import { Button } from "@/components/ui/button";
 import { site } from "@/config/site";
-import { GLYPH_COLORS } from "@/lib/palette";
+import { REEL_COLORS } from "@/lib/palette";
 import { cn } from "@/lib/utils";
 import { DemoModal } from "./demo-modal";
-import { GLYPH_CANVAS_ATTRIBUTE } from "./glyph-text";
 
 /** Travel speed in pixels per second. Slow enough to be an easy target. */
-const SPEED = 120;
+const SPEED = 75;
 
 /** Gap kept between the button and the viewport edges. */
 const EDGE_GAP = 16;
 
 /** CSS variable the rest of the page reads to follow the button's colour. */
 const HIGHLIGHT_VAR = "--demo-highlight";
-
-const HERO_SELECTOR = `[${GLYPH_CANVAS_ATTRIBUTE}]`;
 
 const setHighlight = (color: string) => {
   document.documentElement.style.setProperty(HIGHLIGHT_VAR, color);
@@ -27,7 +25,7 @@ type DemoButtonProps = {
 
 /**
  * "demo" button that drifts around the viewport like a DVD screensaver and
- * advances to the next glyph colour on every edge bounce. It pauses while
+ * advances to the next palette colour on every edge bounce. It pauses while
  * hovered or keyboard-focused so it can be clicked without chasing it.
  */
 export function DemoButton({ className }: DemoButtonProps) {
@@ -36,7 +34,6 @@ export function DemoButton({ className }: DemoButtonProps) {
   const focusedRef = useRef(false);
   const openedRef = useRef(false);
   const [open, setOpen] = useState(false);
-  const [colorIndex, setColorIndex] = useState(0);
   const [placed, setPlaced] = useState(false);
   const colorIndexRef = useRef(0);
 
@@ -50,7 +47,7 @@ export function DemoButton({ className }: DemoButtonProps) {
 
     // The badge and the install prompt read this variable, so all three start
     // on the same colour and stay together after every bounce.
-    setHighlight(GLYPH_COLORS[colorIndexRef.current]);
+    setHighlight(REEL_COLORS[colorIndexRef.current]);
 
     let width = button.offsetWidth;
     let height = button.offsetHeight;
@@ -65,41 +62,6 @@ export function DemoButton({ className }: DemoButtonProps) {
       button.style.transform = `translate3d(${nextX}px, ${nextY}px, 0)`;
     };
 
-    // The hero is a canvas, so crossing it replays the ripple by forwarding the
-    // button's centre as pointer coordinates: the engine trails it exactly as
-    // it would a real pointer.
-    let hero: HTMLElement | null = null;
-    let wasInside = false;
-
-    const sweepTitle = () => {
-      // The hero can remount, so re-query when the element is gone.
-      if (!hero?.isConnected) {
-        hero = document.querySelector<HTMLElement>(HERO_SELECTOR);
-      }
-      if (!hero) return;
-
-      const centerX = x + width / 2;
-      const centerY = y + height / 2;
-      const rect = hero.getBoundingClientRect();
-      const inside =
-        rect.right > x &&
-        rect.left < x + width &&
-        rect.bottom > y &&
-        rect.top < y + height;
-
-      if (inside) {
-        hero.dispatchEvent(
-          new CustomEvent("glyphs:pointermove", {
-            detail: { x: centerX, y: centerY },
-          }),
-        );
-      } else if (wasInside) {
-        hero.dispatchEvent(new Event("glyphs:pointerleave"));
-      }
-
-      wasInside = inside;
-    };
-
     const bounds = () => ({
       maxX: Math.max(EDGE_GAP, window.innerWidth - width - EDGE_GAP),
       maxY: Math.max(EDGE_GAP, window.innerHeight - height - EDGE_GAP),
@@ -112,6 +74,15 @@ export function DemoButton({ className }: DemoButtonProps) {
       place(x, y);
     };
 
+    // The label reflows when the webfont swaps in (and on browser zoom), so the
+    // cached size has to follow the real box or the right edge overshoots.
+    const sizeObserver = new ResizeObserver(() => {
+      width = button.offsetWidth;
+      height = button.offsetHeight;
+      clampToBounds();
+    });
+    sizeObserver.observe(button);
+
     const reducedMotion =
       typeof window.matchMedia === "function" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -123,6 +94,7 @@ export function DemoButton({ className }: DemoButtonProps) {
       y = maxY;
       place(x, y);
       setPlaced(true);
+      sizeObserver.disconnect();
       return;
     }
 
@@ -183,13 +155,11 @@ export function DemoButton({ className }: DemoButtonProps) {
       }
 
       if (bounced) {
-        const nextIndex = (colorIndexRef.current + 1) % GLYPH_COLORS.length;
+        const nextIndex = (colorIndexRef.current + 1) % REEL_COLORS.length;
         colorIndexRef.current = nextIndex;
-        setColorIndex(nextIndex);
-        setHighlight(GLYPH_COLORS[nextIndex]);
+        setHighlight(REEL_COLORS[nextIndex]);
       }
 
-      sweepTitle();
       place(x, y);
     };
 
@@ -203,20 +173,19 @@ export function DemoButton({ className }: DemoButtonProps) {
     window.addEventListener("resize", handleResize);
 
     return () => {
-      if (wasInside) hero?.dispatchEvent(new Event("glyphs:pointerleave"));
       cancelAnimationFrame(frame);
       window.removeEventListener("resize", handleResize);
+      sizeObserver.disconnect();
       document.documentElement.style.removeProperty(HIGHLIGHT_VAR);
     };
   }, []);
 
-  const color = GLYPH_COLORS[colorIndex];
-
   return (
     <>
-      <button
+      <Button
         ref={buttonRef}
         type="button"
+        variant="outline"
         aria-haspopup="dialog"
         aria-label="Watch demo: BrewSnap app walkthrough"
         onClick={() => setOpen(true)}
@@ -234,25 +203,22 @@ export function DemoButton({ className }: DemoButtonProps) {
         onBlur={() => {
           focusedRef.current = false;
         }}
-        style={{
-          color,
-          borderColor: color,
-        }}
         className={cn(
-          "fixed top-0 left-0 z-40 cursor-pointer rounded-full border bg-black/40 px-4 py-2 font-mono text-sm font-semibold tracking-[0.2em] backdrop-blur-sm will-change-transform focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:outline-none",
+          "fixed top-0 left-0 z-40 h-auto cursor-pointer rounded-full border border-[var(--demo-highlight)] bg-[var(--demo-surface)] px-4 py-2 font-press text-sm font-normal tracking-[0.2em] text-[var(--demo-highlight)] shadow-none backdrop-blur-sm will-change-transform hover:bg-[var(--demo-surface)] hover:text-[var(--demo-highlight)] focus-visible:ring-2 focus-visible:ring-ring",
           "transition-opacity duration-200",
           placed ? "opacity-100" : "opacity-0",
           className,
         )}
       >
         watch demo
-      </button>
+      </Button>
 
       <DemoModal
         open={open}
         onOpenChange={setOpen}
         videoSrc={site.demoVideo}
         captionsSrc={site.demoVideoCaptions}
+        returnFocusRef={buttonRef}
       />
     </>
   );

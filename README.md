@@ -121,7 +121,6 @@ Change it there and both follow: nothing has to be edited in `index.html` or `la
 │   ├── main.tsx     # entry point
 │   ├── App.tsx      # root component
 │   ├── index.css    # Tailwind entry point
-│   ├── App.css      # root styles
 │   ├── components/  # shadcn components land here
 │   ├── hooks/       # registry hooks land here
 │   ├── lib/         # cn() in utils.ts
