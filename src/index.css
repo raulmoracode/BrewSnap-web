@@ -1,12 +1,26 @@
 @import "tailwindcss";
 
-/* Absans (Collletttivo, SIL OFL 1.1) — single Regular weight, self-hosted. */
+/* PT Mono (ParaType, SIL OFL 1.1) — the display face of the hero. */
 @font-face {
-  font-family: "Absans";
-  src: url("/fonts/absans-regular.woff2") format("woff2");
+  font-family: "PT Mono";
+  src: url("/fonts/pt-mono-regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
+}
+
+/* Press Start 2P (CodeMan38, SIL OFL 1.1) — pixel face for the demo button. */
+@font-face {
+  font-family: "Press Start 2P";
+  src: url("/fonts/press-start-2p.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Named utility so tailwind-merge does not mistake the family for a weight. */
+@utility font-press {
+  font-family: "Press Start 2P", monospace;
 }
 
 @theme inline {

@@ -74,6 +74,15 @@ export function DemoButton({ className }: DemoButtonProps) {
       place(x, y);
     };
 
+    // The label reflows when the webfont swaps in (and on browser zoom), so the
+    // cached size has to follow the real box or the right edge overshoots.
+    const sizeObserver = new ResizeObserver(() => {
+      width = button.offsetWidth;
+      height = button.offsetHeight;
+      clampToBounds();
+    });
+    sizeObserver.observe(button);
+
     const reducedMotion =
       typeof window.matchMedia === "function" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -85,6 +94,7 @@ export function DemoButton({ className }: DemoButtonProps) {
       y = maxY;
       place(x, y);
       setPlaced(true);
+      sizeObserver.disconnect();
       return;
     }
 
@@ -166,6 +176,7 @@ export function DemoButton({ className }: DemoButtonProps) {
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("resize", handleResize);
+      sizeObserver.disconnect();
       document.documentElement.style.removeProperty(HIGHLIGHT_VAR);
     };
   }, []);
@@ -199,7 +210,7 @@ export function DemoButton({ className }: DemoButtonProps) {
           borderColor: color,
         }}
         className={cn(
-          "fixed top-0 left-0 z-40 cursor-pointer rounded-full border bg-black/40 px-4 py-2 font-mono text-sm font-semibold tracking-[0.2em] backdrop-blur-sm will-change-transform focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:outline-none",
+          "fixed top-0 left-0 z-40 cursor-pointer rounded-full border bg-black/40 px-4 py-2 font-press text-sm font-normal tracking-[0.2em] backdrop-blur-sm will-change-transform focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:outline-none",
           "transition-opacity duration-200",
           placed ? "opacity-100" : "opacity-0",
           className,

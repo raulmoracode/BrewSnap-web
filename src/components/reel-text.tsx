@@ -11,6 +11,15 @@ export const REEL_CANVAS_ATTRIBUTE = "data-reel-canvas";
 
 const REEL_CANVAS_SELECTOR = `[${REEL_CANVAS_ATTRIBUTE}]`;
 
+// The page font is registered in the engine's table so the canvas measures and
+// paints with the same family as the rest of the page.
+Object.assign(ReelEngine.FONTS, {
+  "PT Mono": {
+    family: "PT Mono",
+    stack: '"PT Mono", "ReelMath", ui-monospace, monospace',
+  },
+});
+
 // Script, double-struck, Greek, arrows and operators the reels can land on, on
 // top of the engine's own set. More variety means the effect reads as noise
 // instead of a repeating handful of signs.
@@ -53,7 +62,7 @@ export function ReelText({
   minSize = 24,
   lineHeight = 1.1,
   tracking = 0,
-  font = "Geist Mono",
+  font = "PT Mono",
   ink = "#68676A",
   bright = "#FFFFFF",
   ground = "#000000",
@@ -71,6 +80,13 @@ export function ReelText({
     const container = containerRef.current;
     if (!container) return;
 
+    // The canvas paints once the display face is available, so the first frame
+    // is never the mono fallback.
+    const fontsReady =
+      typeof document !== "undefined" && document.fonts
+        ? document.fonts.load(`400 16px "${font}"`).catch(() => undefined)
+        : undefined;
+
     const controller = ReelEngine.createReel(container, {
       effect,
       text,
@@ -79,8 +95,10 @@ export function ReelText({
       lineHeight,
       tracking,
       font,
+      fontsReady,
       weight: 400,
-      brightWeight: 700,
+      // The bright word is the same weight, only brighter.
+      brightWeight: 400,
       lineChars: 64,
       appearance: "dark",
       colors: REEL_COLORS.length,
