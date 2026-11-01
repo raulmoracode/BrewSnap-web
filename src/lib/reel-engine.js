@@ -1,5 +1,5 @@
-// biome-ignore-all lint: vendored canvas engine; not maintained as application code
-// biome-ignore-all format: vendored canvas engine; not maintained as application code
+// biome-ignore-all lint: self-contained canvas engine with its own lint conventions
+// biome-ignore-all format: self-contained canvas engine with its own formatting
 /*!
  * Reel — canvas text engine.
  *
