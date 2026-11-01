@@ -62,7 +62,12 @@ export function InstallPanel({
         <span className="min-w-0 text-[0.8rem] text-fg-muted">
           {downloadDetail}
         </span>
-        <Button asChild variant="default" size="icon" className="shrink-0">
+        <Button
+          asChild
+          variant="default"
+          size="icon"
+          className="shrink-0 bg-fg-strong text-background hover:bg-fg-strong/90"
+        >
           <a
             href={downloadHref}
             target="_blank"
