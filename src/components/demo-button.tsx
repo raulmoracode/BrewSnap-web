@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
+import { Button } from "@/components/ui/button";
 import { site } from "@/config/site";
 import { REEL_COLORS } from "@/lib/palette";
 import { cn } from "@/lib/utils";
@@ -33,7 +34,6 @@ export function DemoButton({ className }: DemoButtonProps) {
   const focusedRef = useRef(false);
   const openedRef = useRef(false);
   const [open, setOpen] = useState(false);
-  const [colorIndex, setColorIndex] = useState(0);
   const [placed, setPlaced] = useState(false);
   const colorIndexRef = useRef(0);
 
@@ -157,7 +157,6 @@ export function DemoButton({ className }: DemoButtonProps) {
       if (bounced) {
         const nextIndex = (colorIndexRef.current + 1) % REEL_COLORS.length;
         colorIndexRef.current = nextIndex;
-        setColorIndex(nextIndex);
         setHighlight(REEL_COLORS[nextIndex]);
       }
 
@@ -181,13 +180,12 @@ export function DemoButton({ className }: DemoButtonProps) {
     };
   }, []);
 
-  const color = REEL_COLORS[colorIndex];
-
   return (
     <>
-      <button
+      <Button
         ref={buttonRef}
         type="button"
+        variant="outline"
         aria-haspopup="dialog"
         aria-label="Watch demo: BrewSnap app walkthrough"
         onClick={() => setOpen(true)}
@@ -205,25 +203,22 @@ export function DemoButton({ className }: DemoButtonProps) {
         onBlur={() => {
           focusedRef.current = false;
         }}
-        style={{
-          color,
-          borderColor: color,
-        }}
         className={cn(
-          "fixed top-0 left-0 z-40 cursor-pointer rounded-full border bg-black/40 px-4 py-2 font-press text-sm font-normal tracking-[0.2em] backdrop-blur-sm will-change-transform focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:outline-none",
+          "fixed top-0 left-0 z-40 h-auto cursor-pointer rounded-full border border-[var(--demo-highlight)] bg-black/40 px-4 py-2 font-press text-sm font-normal tracking-[0.2em] text-[var(--demo-highlight)] shadow-none backdrop-blur-sm will-change-transform hover:bg-black/40 hover:text-[var(--demo-highlight)] focus-visible:ring-2 focus-visible:ring-white/60",
           "transition-opacity duration-200",
           placed ? "opacity-100" : "opacity-0",
           className,
         )}
       >
         watch demo
-      </button>
+      </Button>
 
       <DemoModal
         open={open}
         onOpenChange={setOpen}
         videoSrc={site.demoVideo}
         captionsSrc={site.demoVideoCaptions}
+        returnFocusRef={buttonRef}
       />
     </>
   );

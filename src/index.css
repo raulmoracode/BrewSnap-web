@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 /* PT Mono (ParaType, SIL OFL 1.1) — the display face of the hero. */
 @font-face {
