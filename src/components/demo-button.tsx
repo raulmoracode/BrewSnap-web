@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { site } from "@/config/site";
-import { GLYPH_COLORS } from "@/lib/palette";
+import { REEL_COLORS } from "@/lib/palette";
 import { cn } from "@/lib/utils";
 import { DemoModal } from "./demo-modal";
 
@@ -24,7 +24,7 @@ type DemoButtonProps = {
 
 /**
  * "demo" button that drifts around the viewport like a DVD screensaver and
- * advances to the next glyph colour on every edge bounce. It pauses while
+ * advances to the next palette colour on every edge bounce. It pauses while
  * hovered or keyboard-focused so it can be clicked without chasing it.
  */
 export function DemoButton({ className }: DemoButtonProps) {
@@ -47,7 +47,7 @@ export function DemoButton({ className }: DemoButtonProps) {
 
     // The badge and the install prompt read this variable, so all three start
     // on the same colour and stay together after every bounce.
-    setHighlight(GLYPH_COLORS[colorIndexRef.current]);
+    setHighlight(REEL_COLORS[colorIndexRef.current]);
 
     let width = button.offsetWidth;
     let height = button.offsetHeight;
@@ -60,56 +60,6 @@ export function DemoButton({ className }: DemoButtonProps) {
 
     const place = (nextX: number, nextY: number) => {
       button.style.transform = `translate3d(${nextX}px, ${nextY}px, 0)`;
-    };
-
-    // The hero's ripple listens for `mouseenter` on each rendered line, so
-    // crossing a line with the button replays it exactly as a pointer would.
-    let lines: HTMLElement[] = [];
-    const overlapping = new Set<HTMLElement>();
-    const textRange = document.createRange();
-
-    const refreshLines = () => {
-      lines = Array.from(
-        document.querySelectorAll<HTMLElement>("[data-line] > div"),
-      );
-      overlapping.clear();
-    };
-
-    const sweepTitle = () => {
-      // SplitText re-splits on resize and font load, which replaces the line
-      // elements; pick the new ones up and start the overlap tracking again.
-      if (lines.length === 0 || lines.some((line) => !line.isConnected)) {
-        refreshLines();
-      }
-
-      const centerX = x + width / 2;
-      const centerY = y + height / 2;
-
-      for (const line of lines) {
-        // A range measures the text itself, not the full-width line box.
-        textRange.selectNodeContents(line);
-        const rect = textRange.getBoundingClientRect();
-        const overlaps =
-          rect.right > x &&
-          rect.left < x + width &&
-          rect.bottom > y &&
-          rect.top < y + height;
-
-        if (!overlaps) {
-          overlapping.delete(line);
-          continue;
-        }
-
-        if (overlapping.has(line)) continue;
-
-        overlapping.add(line);
-        line.dispatchEvent(
-          new MouseEvent("mouseenter", {
-            clientX: centerX,
-            clientY: centerY,
-          }),
-        );
-      }
     };
 
     const bounds = () => ({
@@ -195,13 +145,12 @@ export function DemoButton({ className }: DemoButtonProps) {
       }
 
       if (bounced) {
-        const nextIndex = (colorIndexRef.current + 1) % GLYPH_COLORS.length;
+        const nextIndex = (colorIndexRef.current + 1) % REEL_COLORS.length;
         colorIndexRef.current = nextIndex;
         setColorIndex(nextIndex);
-        setHighlight(GLYPH_COLORS[nextIndex]);
+        setHighlight(REEL_COLORS[nextIndex]);
       }
 
-      sweepTitle();
       place(x, y);
     };
 
@@ -221,7 +170,7 @@ export function DemoButton({ className }: DemoButtonProps) {
     };
   }, []);
 
-  const color = GLYPH_COLORS[colorIndex];
+  const color = REEL_COLORS[colorIndex];
 
   return (
     <>
