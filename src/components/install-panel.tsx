@@ -51,7 +51,7 @@ export function InstallPanel({
   return (
     <div
       className={cn(
-        "w-[calc(100%-3rem)] max-w-[34rem] overflow-hidden rounded-[0.8rem] border border-border bg-fg-strong/[0.02]",
+        "w-[calc(100%-3rem)] max-w-[34rem] overflow-hidden rounded-[0.8rem] border border-border bg-fg-strong/[0.06]",
         className,
       )}
     >
