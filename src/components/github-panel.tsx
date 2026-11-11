@@ -1,4 +1,4 @@
-import { Github } from "@raulmoracode/icons";
+import { Star } from "@raulmoracode/icons";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -50,12 +50,7 @@ export function GithubPanel({ repoUrl, className }: GithubPanelProps) {
         >
           {slug}
         </code>
-        <Button
-          asChild
-          variant="default"
-          size="icon"
-          className="shrink-0 bg-fg-strong text-background hover:bg-fg-strong/90"
-        >
+        <Button asChild variant="ghost" size="icon" className="shrink-0">
           <a
             href={repoUrl}
             target="_blank"
@@ -63,7 +58,7 @@ export function GithubPanel({ repoUrl, className }: GithubPanelProps) {
             title="Open the repository on GitHub"
           >
             <span className="sr-only">Open {slug} on GitHub</span>
-            <Github />
+            <Star className="fill-yellow-400 text-yellow-400" />
           </a>
         </Button>
       </div>
