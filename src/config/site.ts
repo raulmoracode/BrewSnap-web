@@ -22,5 +22,5 @@ export const site = {
   author: "Raul Mora",
   twitter: "@raulmoracode",
   locale: "es_ES",
-  themeColor: "#ffffff",
+  themeColor: "#000000",
 } as const;
