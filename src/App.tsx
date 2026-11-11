@@ -17,12 +17,12 @@ export default function App() {
         }
       >
         <div className="mt-16 flex w-full flex-col items-center gap-5">
-          <GithubPanel repoUrl="https://github.com/raulmoracode/BrewSnap" />
           <InstallPanel
             downloadHref="https://github.com/raulmoracode/BrewSnap/releases/latest/download/BrewSnap.dmg"
             downloadDetail="macOS 15 or later"
             installCommand="brew install raulmoracode/tap/brewsnap"
           />
+          <GithubPanel repoUrl="https://github.com/raulmoracode/BrewSnap" />
         </div>
       </HeroText>
       <DemoButton />
