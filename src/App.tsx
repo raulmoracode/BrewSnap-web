@@ -1,8 +1,8 @@
 import { DemoButton } from "./components/demo-button";
+import { GithubPanel } from "./components/github-panel";
 import { HeroText } from "./components/hero-text";
 import { InstallPanel } from "./components/install-panel";
 import { PartOfRaulmoracode } from "./components/part-of-raulmoracode";
-import { StarGithubButton } from "./components/star-github-button";
 
 export default function App() {
   return (
@@ -17,7 +17,7 @@ export default function App() {
         }
       >
         <div className="mt-16 flex w-full flex-col items-center gap-5">
-          <StarGithubButton repoUrl="https://github.com/raulmoracode/BrewSnap" />
+          <GithubPanel repoUrl="https://github.com/raulmoracode/BrewSnap" />
           <InstallPanel
             downloadHref="https://github.com/raulmoracode/BrewSnap/releases/latest/download/BrewSnap.dmg"
             downloadDetail="macOS 15 or later"
