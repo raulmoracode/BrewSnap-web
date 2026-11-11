@@ -1,4 +1,4 @@
-import { type CSSProperties, useEffect, useRef, useState } from "react";
+import { type CSSProperties, useEffect, useRef } from "react";
 import { REEL_COLORS } from "@/lib/palette";
 import ReelEngine, { type ReelEffect } from "@/lib/reel";
 import { cn } from "@/lib/utils";
@@ -70,25 +70,6 @@ export function ReelText({
   style,
 }: ReelTextProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [themeVersion, setThemeVersion] = useState(0);
-
-  // The canvas bakes the theme colours in when it is created, so the class on
-  // <html> is watched to rebuild it when the theme changes: the hero cannot
-  // stay dark on a light page without a reload.
-  useEffect(() => {
-    if (typeof document === "undefined") return;
-
-    const observer = new MutationObserver(() => {
-      setThemeVersion((version) => version + 1);
-    });
-
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    });
-
-    return () => observer.disconnect();
-  }, []);
 
   // The effect is pointer-driven, so reduced motion keeps the text and takes
   // the pointer away instead of disabling the canvas.
@@ -114,8 +95,7 @@ export function ReelText({
       ink ?? (rootStyle.getPropertyValue("--fg-faint").trim() || "#68676A");
     const brightColor =
       bright ?? (rootStyle.getPropertyValue("--fg-strong").trim() || "#FFFFFF");
-    // The ground follows the page background, so the canvas is white on the
-    // light theme and black on the default one.
+    // The ground follows the page background, so the canvas sits on black.
     const groundColor =
       ground ??
       (rootStyle.getPropertyValue("--background").trim() || "#000000");
@@ -200,7 +180,6 @@ export function ReelText({
     bright,
     ground,
     reducedMotion,
-    themeVersion,
   ]);
 
   return (
