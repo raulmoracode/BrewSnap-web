@@ -78,7 +78,7 @@ export function InstallPanel({
         </code>
         <Button
           type="button"
-          variant="outline"
+          variant="default"
           size="icon"
           onClick={copy}
           aria-label="Copy Homebrew command"
