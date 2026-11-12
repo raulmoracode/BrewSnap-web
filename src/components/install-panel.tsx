@@ -1,4 +1,4 @@
-import { Copy, CopyCheck } from "@raulmoracode/icons";
+import { Copy, CopyCheck, Star } from "@raulmoracode/icons";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -7,12 +7,10 @@ import { cn } from "@/lib/utils";
 type CopyStatus = "idle" | "copied" | "error";
 
 type InstallPanelProps = {
-  /** Latest build for the platform, opened in a new tab. */
-  downloadHref: string;
-  /** Requirement shown next to the Download label. */
-  downloadDetail: string;
   /** Command copied by the Homebrew row. */
   installCommand: string;
+  /** e.g. "https://github.com/owner/repo" — shown as owner/repo and opened by the action. */
+  repoUrl: string;
   className?: string;
 };
 
@@ -20,19 +18,32 @@ type InstallPanelProps = {
 const ROW =
   "grid min-h-[3.25rem] grid-cols-[5rem_minmax(0,1fr)_2.25rem] items-center gap-3 py-1.5 pr-2 pl-4 sm:grid-cols-[7rem_minmax(0,1fr)_2.25rem] sm:gap-4 sm:pl-[1.1rem]";
 
+/** Reduces a repository URL to `owner/repo`; falls back to the raw URL. */
+function getRepoSlug(repoUrl: string) {
+  try {
+    const [owner, repo] = new URL(repoUrl).pathname
+      .replace(/^\/+|\/+$/g, "")
+      .split("/");
+    if (owner && repo) return `${owner}/${repo.replace(/\.git$/, "")}`;
+  } catch {
+    // Fall through to the raw URL; a relative string has no slug.
+  }
+  return repoUrl;
+}
+
 /**
  * Installation stack modelled on the panel at https://anoma.ly/hex/: each row
- * pairs a label, a value and one action, so downloading and installing share a
- * single surface instead of two separate controls.
+ * pairs a label, a value and one action, so installing and reaching the
+ * repository share a single surface instead of separate controls.
  */
 export function InstallPanel({
-  downloadHref,
-  downloadDetail,
   installCommand,
+  repoUrl,
   className,
 }: InstallPanelProps) {
   const [status, setStatus] = useState<CopyStatus>("idle");
   const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const slug = getRepoSlug(repoUrl);
 
   useEffect(() => () => clearTimeout(timerRef.current), []);
 
@@ -56,43 +67,6 @@ export function InstallPanel({
       )}
     >
       <div className={ROW}>
-        <span className="truncate text-[0.85rem] font-medium text-fg-strong">
-          Download
-        </span>
-        <span className="min-w-0 text-[0.8rem] text-fg-muted">
-          {downloadDetail}
-        </span>
-        <Button
-          asChild
-          variant="default"
-          size="icon"
-          className="shrink-0 bg-fg-strong text-background hover:bg-fg-strong/90"
-        >
-          <a
-            href={downloadHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Download"
-          >
-            <span className="sr-only">
-              Download BrewSnap for {downloadDetail}
-            </span>
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={1.8}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 4.5v11M7 11l5 5 5-5M5 19.5h14" />
-            </svg>
-          </a>
-        </Button>
-      </div>
-
-      <div className={cn(ROW, "border-t border-fg-strong/[0.07]")}>
         <span className="truncate text-[0.85rem] font-medium text-fg-strong">
           Homebrew
         </span>
@@ -122,6 +96,29 @@ export function InstallPanel({
           ) : (
             <Copy aria-hidden="true" />
           )}
+        </Button>
+      </div>
+
+      <div className={cn(ROW, "border-t border-fg-strong/[0.07]")}>
+        <span className="truncate text-[0.85rem] font-medium text-fg-strong">
+          GitHub
+        </span>
+        <code
+          title={repoUrl}
+          className="min-w-0 truncate font-mono text-[0.8rem] text-fg-strong/85"
+        >
+          {slug}
+        </code>
+        <Button asChild variant="ghost" size="icon" className="shrink-0">
+          <a
+            href={repoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Open the repository on GitHub"
+          >
+            <span className="sr-only">Open {slug} on GitHub</span>
+            <Star className="fill-yellow-400 text-yellow-400" />
+          </a>
         </Button>
       </div>
 
