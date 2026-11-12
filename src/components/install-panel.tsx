@@ -89,7 +89,7 @@ export function InstallPanel({
                 ? "Could not copy"
                 : "Copy"
           }
-          className="shrink-0"
+          className="shrink-0 bg-fg-strong text-background hover:bg-fg-strong/90"
         >
           {status === "copied" ? (
             <CopyCheck aria-hidden="true" />
