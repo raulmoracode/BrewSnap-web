@@ -9,8 +9,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { InstallPanel } from "@/components/install-panel";
 
-const DOWNLOAD = "https://example.com/BrewSnap.dmg";
 const COMMAND = "brew install raulmoracode/tap/brewsnap";
+const REPO = "https://github.com/example/brewsnap";
 
 function mockClipboard(writeText: ReturnType<typeof vi.fn>) {
   Object.defineProperty(navigator, "clipboard", {
@@ -19,14 +19,8 @@ function mockClipboard(writeText: ReturnType<typeof vi.fn>) {
   });
 }
 
-function renderPanel() {
-  return render(
-    <InstallPanel
-      downloadHref={DOWNLOAD}
-      downloadDetail="macOS 15 or later"
-      installCommand={COMMAND}
-    />,
-  );
+function renderPanel(repoUrl = REPO) {
+  return render(<InstallPanel installCommand={COMMAND} repoUrl={repoUrl} />);
 }
 
 afterEach(() => {
@@ -35,15 +29,35 @@ afterEach(() => {
 });
 
 describe("InstallPanel", () => {
-  it("links to the download and shows the Homebrew command", () => {
+  it("shows the Homebrew command and links to the repository", () => {
     mockClipboard(vi.fn());
     renderPanel();
 
-    const link = screen.getByRole("link", {
-      name: "Download BrewSnap for macOS 15 or later",
-    });
-    expect(link.getAttribute("href")).toBe(DOWNLOAD);
     expect(screen.getByText(COMMAND)).toBeDefined();
+    expect(screen.getByText("example/brewsnap")).toBeDefined();
+
+    const link = screen.getByRole("link", {
+      name: "Open example/brewsnap on GitHub",
+    });
+    expect(link.getAttribute("href")).toBe(REPO);
+    expect(link.getAttribute("target")).toBe("_blank");
+    expect(link.getAttribute("rel")).toBe("noopener noreferrer");
+  });
+
+  it("no longer offers a download", () => {
+    mockClipboard(vi.fn());
+    renderPanel();
+
+    expect(screen.queryByText("Download")).toBeNull();
+    expect(screen.queryByText("macOS 15 or later")).toBeNull();
+    expect(screen.queryByRole("link", { name: /^Download/ })).toBeNull();
+  });
+
+  it("falls back to the raw URL when there is no owner/repo pair", () => {
+    mockClipboard(vi.fn());
+    renderPanel("https://example.com/");
+
+    expect(screen.getByText("https://example.com/")).toBeDefined();
   });
 
   it("copies the command and announces the result", async () => {
