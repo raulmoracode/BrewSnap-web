@@ -114,9 +114,8 @@
     --sidebar-accent-foreground: var(--fg-strong);
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(1 0 0 / 60%);
-    /* Accent shared by the demo button, the ecosystem badge and the install
-       prompt. It starts on the brand colour; the demo button overwrites it on
-       every edge bounce. */
+    /* Accent shared by the demo button and the ecosystem badge. It starts on
+       the brand colour; the demo button overwrites it on every edge bounce. */
     --demo-highlight: var(--fg-brand);
     /* Badge text accent: follows the palette exactly. */
     --accent-text: var(--demo-highlight);

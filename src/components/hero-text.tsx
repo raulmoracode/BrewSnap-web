@@ -47,18 +47,19 @@ export function HeroText({ badge, children }: HeroTextProps) {
     <section className="flex h-dvh w-full flex-col items-center justify-center overflow-hidden bg-background pb-16 text-fg-strong">
       {badge ? <div className="relative z-30 mb-12">{badge}</div> : null}
       <h1 className="sr-only">{HERO_LABEL}</h1>
-      {/* Four rows at 1.2 line height; the box keeps the text's proportion at
-          every width, and the canvas adds room above and below it. */}
+      {/* Four rows at 1.05 line height; the box keeps the text's proportion at
+          every width (4 × 1.05 × 6.8% ≈ 28.6%), and the canvas adds room above
+          and below it. */}
       <div
         ref={shellRef}
         {...{ [REEL_CANVAS_ATTRIBUTE]: "" }}
-        className="relative aspect-[1000/320] w-full sm:w-4/5 sm:max-w-[64rem]"
+        className="relative aspect-[1000/286] w-full sm:w-4/5 sm:max-w-[64rem]"
       >
         <ReelText
           text={HERO_TEXT}
           effect="unreveal"
           size={6.8}
-          lineHeight={1.2}
+          lineHeight={1.05}
           className="absolute inset-x-0 z-20 h-full"
           style={
             canvasHeight

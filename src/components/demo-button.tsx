@@ -45,8 +45,8 @@ export function DemoButton({ className }: DemoButtonProps) {
     const button = buttonRef.current;
     if (!button) return;
 
-    // The badge and the install prompt read this variable, so all three start
-    // on the same colour and stay together after every bounce.
+    // The ecosystem badge reads this variable, so it starts on the same colour
+    // and follows every bounce.
     setHighlight(REEL_COLORS[colorIndexRef.current]);
 
     let width = button.offsetWidth;
